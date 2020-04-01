@@ -35,7 +35,7 @@ export default class Content {
         res.write("3. feladat:");
         res.write(`<p>\t${megold.LegutolsoFuvar}km volt a hét utolsó fuvara.</p>`);
 
-        // 4. feladat: Tudjuk, hogy a futár minden héten tart legalább egy szabadnapot. Írja ki a képernyőre,
+        // 4. feladat: Tudjuk, hogy a futár minden héten    tart legalább egy szabadnapot. Írja ki a képernyőre,
         // hogy a hét hányadik napjain nem dolgozott a futár!
         res.write("4. feladat:");
         for (const item of megold.Pihenonapok) {
