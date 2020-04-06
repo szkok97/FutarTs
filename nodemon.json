@@ -3,7 +3,7 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "watch": ["input.json", "favicon.ico", "forras.txt", "src/"],
+  "watch": ["input.json", "favicon.ico", "tavok.txt", "src/"],
   "ext": "ts, js, txt, json, ico",
   "delay": 0,
   "exec": "tsc && node --inspect ./dist/App.js || exit 1"

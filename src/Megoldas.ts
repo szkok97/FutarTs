@@ -13,26 +13,28 @@ export default class Megoldas {
                 if (aktSor.length > 0) this.Fuvarok.push(new Fuvar(aktSor));
             });
     }
-    public get LegelsoFuvar(): number {
-        let elsoFuvar = 0;
-        for (let i = 0; i < this.Fuvarok.length; i++) {
-            if (this.Fuvarok[i].Getnap === 1 && this.Fuvarok[i].Getsorszam === 1) elsoFuvar = this.Fuvarok[i].Getut;
-        }
-        return elsoFuvar;
+    public get rendzettFuvarok(): Array<Fuvar> {
+        const rendezettFuvarok: Fuvar[] = this.Fuvarok.sort(function (a, b) {
+            if (a.nap > b.nap) return 1;
+            if (a.nap < b.nap) return -1;
+            if (a.sorszam > b.sorszam) return 1;
+            if (a.sorszam < b.sorszam) return -1;
+            return 0;
+        });
+        return rendezettFuvarok;
     }
-    public get LegutolsoFuvar(): number {
-        let utolsoFuvar = 0;
-        for (let i = 0; i < this.Fuvarok.length; i++) {
-            if (this.Fuvarok[i].Getnap === 7 && this.Fuvarok[i].Getsorszam === 8) utolsoFuvar = this.Fuvarok[i].Getut;
-        }
-        return utolsoFuvar;
+    public get legelsoFuvar(): number {
+        return this.rendzettFuvarok[0].ut;
     }
-    public get Pihenonapok(): Array<number> {
+    public get legutolsoFuvar(): number {
+        return this.rendzettFuvarok[this.rendzettFuvarok.length - 1].ut;
+    }
+    public get pihenonapok(): Array<number> {
         let darab = 0;
         const pihenok: number[] = [];
         for (let j = 1; j < 8; j++) {
-            for (let i = 0; i < this.Fuvarok.length; i++) {
-                if (this.Fuvarok[i].Getnap === j) {
+            for (const i of this.rendzettFuvarok) {
+                if (i.nap === j) {
                     darab++;
                 }
             }
@@ -43,13 +45,13 @@ export default class Megoldas {
         }
         return pihenok;
     }
-    public get LegtobbFuvar(): number {
+    public get legtobbFuvar(): number {
         let darab = 0;
         let max = 0;
         let legtobb = 0;
         for (let j = 1; j < 8; j++) {
-            for (let i = 0; i < this.Fuvarok.length; i++) {
-                if (this.Fuvarok[i].Getnap === j) {
+            for (const i of this.rendzettFuvarok) {
+                if (i.nap === j) {
                     darab++;
                 }
             }
@@ -61,13 +63,13 @@ export default class Megoldas {
         }
         return legtobb;
     }
-    public get NapPerKilometer(): Array<string> {
+    public get napPerKilometer(): Array<string> {
         let megtettKm = 0;
         const napPerKm: string[] = [];
         for (let j = 1; j < 8; j++) {
-            for (let i = 0; i < this.Fuvarok.length; i++) {
-                if (this.Fuvarok[i].Getnap === j) {
-                    megtettKm += this.Fuvarok[i].Getut;
+            for (const i of this.rendzettFuvarok) {
+                if (i.nap === j) {
+                    megtettKm += i.ut;
                 }
             }
             napPerKm.push(`${j}. nap: ${megtettKm} km`);
@@ -75,38 +77,21 @@ export default class Megoldas {
         }
         return napPerKm;
     }
-    public Fizetes(kilometer: number): number {
-        let fizetes = 0;
-        if (kilometer > 0 && kilometer < 3) {
-            fizetes = 500;
-        } else if (kilometer > 2 && kilometer < 6) {
-            fizetes = 700;
-        } else if (kilometer > 5 && kilometer < 11) {
-            fizetes = 900;
-        } else if (kilometer > 10 && kilometer < 21) {
-            fizetes = 1400;
-        } else if (kilometer > 20 && kilometer < 31) {
-            fizetes = 2000;
-        }
-        return fizetes;
+    public fizetes(kilometer: number): number {
+        const fuvar: Fuvar = new Fuvar(`0 0 ${kilometer}`);
+        return fuvar.fiz;
     }
-    public FajlbaIras(): void {
+    public fajlbaIras(): void {
         const dijazas: string[] = [];
-        for (let i = 1; i < 8; i++) {
-            for (let j = 1; j < 31; j++) {
-                for (let k = 0; k < this.Fuvarok.length; k++) {
-                    if (this.Fuvarok[k].Getnap === i && this.Fuvarok[k].Getsorszam === j) {
-                        dijazas.push(`${this.Fuvarok[k].Getnap} ${this.Fuvarok[k].Getsorszam} ${this.Fuvarok[k].Getut} ${this.Fuvarok[k].Getfiz}\n`);
-                    }
-                }
-            }
+        for (const i of this.rendzettFuvarok) {
+            dijazas.push(`${i.nap} ${i.sorszam} ${i.ut} ${i.fiz}\n`);
         }
         fs.writeFileSync("dijazas.txt", dijazas.join(""));
     }
-    public get Bevetel(): number {
+    public get bevetel(): number {
         let bevetel = 0;
         for (const i of this.Fuvarok) {
-            bevetel += i.Getfiz;
+            bevetel += i.fiz;
         }
         return bevetel;
     }

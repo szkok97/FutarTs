@@ -6,15 +6,15 @@ describe("Fuvar osztály unit tesztek:", () => {
         expect(instance).toBeInstanceOf(Fuvar);
     });
     it("Fuvar napja", async () => {
-        expect(instance.Getnap).toBe(2);
+        expect(instance.nap).toBe(2);
     });
     it("Fuvar sorszáma", async () => {
-        expect(instance.Getsorszam).toBe(1);
+        expect(instance.sorszam).toBe(1);
     });
     it("Fuvar kilóméter", async () => {
-        expect(instance.Getut).toBe(2);
+        expect(instance.ut).toBe(2);
     });
     it("Fuvar ára", async () => {
-        expect(instance.Getfiz).toBe(500);
+        expect(instance.fiz).toBe(500);
     });
 });
