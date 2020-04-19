@@ -17,4 +17,7 @@ describe("Fuvar osztály unit tesztek:", () => {
     it("Fuvar ára", async () => {
         expect(instance.fiz).toBe(500);
     });
+    it("Fuvar ára", async () => {
+        expect(instance.fizetesMegallapitas(2)).toBe(500);
+    });
 });
